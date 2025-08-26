@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Blog – VulnSite{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="h">New Post</h2>
+  <form method="post">{% csrf_token %}
+    <div class="row">
+      <input name="title" placeholder="Title" required>
+      <textarea name="content" placeholder="Write content" required></textarea>
+    </div>
+    <div style="margin-top:10px"><button>Publish</button></div>
+  </form>
+  {% if error %}<div class="alert danger">{{ error }}</div>{% endif %}
+</div>
+
+<div class="card">
+  <h3 class="h">Posts</h3>
+  <ul class="list">
+    {% for p in posts %}
+      <li>
+        <div><a href="{% url 'post_detail' p.id %}"><b>{{ p.title|default:"(no title)" }}</b></a></div>
+        <div class="sub">{{ p.content|truncatechars:120 }}</div>
+      </li>
+    {% empty %}
+      <li>No posts yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

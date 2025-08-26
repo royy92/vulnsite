@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Upload – VulnSite{% endblock %}
+{% block content %}
+<div class="card" style="max-width:640px;margin:0 auto">
+  <h2 class="h">Upload a file</h2>
+   <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="label">Choose file</div>
+    <input type="file" name="file">
+    <div style="margin-top:10px"><button>Upload</button></div>
+  </form>
+</div>
+{% endblock %}

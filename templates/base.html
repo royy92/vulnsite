@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+  <meta charset="utf-8">
+  {% load static %}
+  <title>{% block title %}VulnSite{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'site.css' %}">
+
+<body class="">
+  <div class="nav">
+    <div class="container bar">
+      <div class="brand">VulnSite</div>
+      <a href="/">Home</a>
+      <a href="/login/">Login</a>
+      <a href="/blog/">Blog</a>
+      <a href="/upload/">Upload</a>
+      <a href="/dashboard/">Dashboard</a>
+      <div class="spacer"></div>
+      <span class="badge">Demo</span>
+    </div>
+  </div>
+
+  <div class="container wrap">
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- Toast container -->
+  <div id="toasts"></div>
+
+  <script>
+    // تمييز الرابط النشط
+    const here = location.pathname.replace(/\/$/,'/');
+    for (const a of document.querySelectorAll('.nav a')) {
+      const href = (a.getAttribute('href')||'').replace(/\/$/,'/');
+      if (href && href !== '/' && here.startsWith(href)) a.classList.add('active');
+      if (here === '/' && href === '/') a.classList.add('active');
+    }
+
+    // Toast helper
+    function toast(msg,type='ok',ms=2200){
+      const wrap = document.getElementById('toasts');
+      const el = document.createElement('div');
+      el.className = 'toast ' + type;
+      el.textContent = msg;
+      wrap.appendChild(el);
+      setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(8px)'; }, ms);
+      setTimeout(()=>wrap.removeChild(el), ms+250);
+    }
+  </script>
+
+</body>
+</html>

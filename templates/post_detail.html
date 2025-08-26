@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Post – VulnSite{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="h">{{ post.title }}</h2>
+  <div class="alert warn">This content is intentionally rendered unsafely (<b>Stored XSS</b>).</div>
+  <div style="margin-top:12px">{{ post.content|safe }}</div>
+  <div style="margin-top:12px"><a href="/blog/">← Back to list</a></div>
+</div>
+{% endblock %}

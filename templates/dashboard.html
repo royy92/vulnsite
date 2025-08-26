@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – VulnSite{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="h">Welcome back, {{ username }}</h2>
+  <span class="badge">Dashboard</span>
+</div>
+
+<div class="grid grid-3">
+  <div class="card">
+    <div>Profile Completeness</div>
+    <div class="kpi" id="kpi-complete">—%</div>
+    <div class="mono" id="kpi-username">user: —</div>
+  </div>
+  <div class="card">
+    <div>Open Tickets</div>
+    <div class="kpi" id="kpi-tickets">—</div>
+    <div class="sub">last 30 days</div>
+  </div>
+  <div class="card">
+    <div>Downloads</div>
+    <div class="kpi" id="kpi-dls">—</div>
+    <div class="sub">reports & exports</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3 class="h">Recent Activity</h3>
+  <ul id="activity" class="list">
+    <li>Loading…</li>
+  </ul>
+</div>
+
+<script>
+(async () => {
+  try {
+    const res = await fetch('/api/profile'); // نفس الضعف (IDOR) عبر ?id=
+    const data = await res.json();
+    document.getElementById('kpi-username').textContent = 'user: ' + (data.username || '—');
+    document.getElementById('kpi-complete').textContent = (Math.min(95, (data.username||'').length*10)) + '%';
+    document.getElementById('kpi-tickets').textContent = String((data.id || 1) % 5 + 1);
+    document.getElementById('kpi-dls').textContent = String(((data.username||'x').charCodeAt(0) % 7) + 3);
+    const act = document.getElementById('activity'); act.innerHTML = '';
+    ['Login','Viewed dashboard','Downloaded statement'].forEach(x=>{const li=document.createElement('li'); li.textContent=x; act.appendChild(li);});
+  } catch(e){ console.error(e); }
+})();
+</script>
+{% endblock %}

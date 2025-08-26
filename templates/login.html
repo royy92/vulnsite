@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Login – VulnSite{% endblock %}
+{% block content %}
+<div class="card" style="max-width:520px;margin:0 auto">
+  <h2 class="h">Login</h2> 
+  <form method="post">{% csrf_token %}
+    <div class="row">
+      <div>
+        <div class="label">Username</div>
+        <input name="username" placeholder="e.g. admin">
+      </div>
+      <div>
+        <div class="label">Password</div>
+        <input type="password" name="password" placeholder="••••••••">
+      </div>
+    </div>
+    <div style="margin-top:10px"><button>Sign in</button></div>
+  </form>
+  <div class="hr"></div>
+  <div class="alert warn">Try what you want.</div>
+</div>
+{% endblock %}
